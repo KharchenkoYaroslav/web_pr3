@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб калькулятор</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/icons8-calculator-50.png" type="image/png">
+</head>
+
+<body>
+    <div id="main-component">
+        <div id="calculator1" class="component active">
+            <h2>Калькулятор 1</h2>
+            <button onclick="showComponent('calculator2')">Перейти до калькулятора 2</button>
+            <div class="input-box">
+                <div class="input-container percent">
+                    <label for="calculator1-hp-input">H<sup>P</sup>:</label>
+                    <input id="calculator1-hp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-cp-input">C<sup>P</sup>:</label>
+                    <input id="calculator1-cp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-sp-input">S<sup>P</sup>:</label>
+                    <input id="calculator1-sp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-np-input">N<sup>P</sup>:</label>
+                    <input id="calculator1-np-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-op-input">O<sup>P</sup>:</label>
+                    <input id="calculator1-op-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-wp-input">W<sup>P</sup>:</label>
+                    <input id="calculator1-wp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator1-ap-input">A<sup>P</sup>:</label>
+                    <input id="calculator1-ap-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+            </div>
+            <button onclick="calculator1_calculate()">Порахувати</button>
+            <div class="result-box hidden">
+                <div class="result">
+                    <h3>Результат:</h3>
+
+                    <p id="result-inputs">
+                    <p>Для палива з компонентним складом:</p>
+                    <span id="calculator1-hp" class="highlighted"></span>
+                    <span id="calculator1-cp" class="highlighted"></span>
+                    <span id="calculator1-sp" class="highlighted"></span>
+                    <span id="calculator1-np" class="highlighted"></span>
+                    <span id="calculator1-op" class="highlighted"></span>
+                    <span id="calculator1-wp" class="highlighted"></span>
+                    <span id="calculator1-ap" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-1">
+                        <span>Коефіцієнт переходу від робочої до сухої маси становить:</span>
+                        <span id="calculator1-kpc" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-2">
+                        <span>Коефіцієнт переходу від робочої до горючої маси становить:</span>
+                        <span id="calculator1-kpg" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-3">
+                    <p>Склад сухої маси палива становитиме:</p>
+                    <span id="calculator1-hc" class="highlighted"></span>
+                    <span id="calculator1-cc" class="highlighted"></span>
+                    <span id="calculator1-sc" class="highlighted"></span>
+                    <span id="calculator1-nc" class="highlighted"></span>
+                    <span id="calculator1-oc" class="highlighted"></span>
+                    <span id="calculator1-ac" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-4">
+                    <p>Склад сухої маси палива становитиме:</p>
+                    <span id="calculator1-hg" class="highlighted"></span>
+                    <span id="calculator1-cg" class="highlighted"></span>
+                    <span id="calculator1-sg" class="highlighted"></span>
+                    <span id="calculator1-ng" class="highlighted"></span>
+                    <span id="calculator1-og" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-5">
+                    <p>Нижча теплота згоряння для робочої маси за заданим складом компонентів палива
+                        становить:</p>
+                    <span id="calculator1-qph" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-6">
+                    <p>Нижча теплота згоряння для сухої маси за заданим складом компонентів палива становить: </p>
+                    <span id="calculator1-qch" class="highlighted"></span>
+                    </p>
+
+                    <p id="result-7">
+                    <p>Нижча теплота згоряння для горючої маси за заданим складом компонентів палива
+                        становить:</p>
+                    <span id="calculator1-qgh" class="highlighted"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="calculator2" class="component">
+            <h2>Калькулятор 2</h2>
+            <button onclick="showComponent('calculator1')">Перейти до калькулятора 1</button>
+            <div class="input-box">
+                <div class="input-container percent">
+                    <label for="calculator2-hg-input">H<sup>Г</sup>:</label>
+                    <input class="calculator2-hg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator2-cg-input">C<sup>Г</sup>:</label>
+                    <input class="calculator2-cg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator2-sg-input">S<sup>Г</sup>:</label>
+                    <input class="calculator2-sg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator2-og-input">O<sup>Г</sup>:</label>
+                    <input class="calculator2-og-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container  mg-kg">
+                    <label for="calculator2-vg-input">V<sup>Г</sup>:</label>
+                    <input class="calculator2-vg-input" type="text" step="any" placeholder="0.0 мг/кг" min="0"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator2-wg-input">W<sup>Г</sup>:</label>
+                    <input class="calculator2-wg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container percent">
+                    <label for="calculator2-ag-input">A<sup>Г</sup>:</label>
+                    <input class="calculator2-ag-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+
+                <div class="input-container mj-kg">
+                    <label for="calculator2-qidaf-input">Q<sub>i</sub><sup>daf</sup>:</label>
+                    <input class="calculator2-qidaf-input" type="text" step="any" placeholder="0.0 МДж/кг" min="0"
+                        oninput="addPercentageSymbol(this)" autocomplete="off">
+                </div>
+            </div>
+            <button onclick="calculator2_calculate()">Порахувати</button>
+            <div class="result-box hidden">
+                <div class="result">
+                    <p id="result-inputs">
+                    <p>Для складу горючої маси мазуту, що задано наступними параметрами:</p>
+                    <span id="calculator2-hg" class="highlighted"></span>
+                    <span id="calculator2-cg" class="highlighted"></span>
+                    <span id="calculator2-sg" class="highlighted"></span>
+                    <span id="calculator2-og" class="highlighted"></span>
+                    <span id="calculator2-vg" class="highlighted"></span>
+                    <span id="calculator2-wg" class="highlighted"></span>
+                    <span id="calculator2-qidaf" class="highlighted"></span>
+                    </p>
+                    <p id="result-1">
+                    <p>Склад сухої маси палива становитиме:</p>
+                    <span id="calculator2-hp" class="highlighted"></span>
+                    <span id="calculator2-cp" class="highlighted"></span>
+                    <span id="calculator2-sp" class="highlighted"></span>
+                    <span id="calculator2-op" class="highlighted"></span>
+                    <span id="calculator2-vp" class="highlighted"></span>
+                    <span id="calculator2-ap" class="highlighted"></span>
+                    </p>
+                    <p id="result-2">
+                    <p>Нижча теплота згоряння мазуту на робочу масу для робочої маси за заданим складом компонентів
+                        палива становить: </p>
+                    <span id="calculator2-qch" class="highlighted"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"> </script>
+</body>
+
+</html>
