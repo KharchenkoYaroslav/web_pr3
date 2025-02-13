@@ -1,4 +1,4 @@
-function addPercentageSymbol(input) {
+function addSymbol(input) {
     let value = input.value; 
     input.parentElement.setAttribute('data-value', value);
 }
