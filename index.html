@@ -12,7 +12,7 @@
 <body>
     <div id="main-component">
         <div id="calculator1" class="component active">
-            <h2>Калькулятор 1</h2>
+            <h2>Калькулятор 1 <button onclick="openModal('modal-calculator1')">?</button></h2>
             <button onclick="showComponent('calculator2')">Перейти до калькулятора 2</button>
             <div class="input-box">
                 <div class="input-container percent">
@@ -120,9 +120,17 @@
                     </p>
                 </div>
             </div>
+            <div id="modal-calculator1" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal('modal-calculator1')">&times;</span>
+                    <p>Веб калькулятор для розрахунку складу сухої та горючої маси палива та
+                    нижчої теплоти згоряння для робочої, сухої та горючої маси за заданим складом компонентів
+                    палива, що задаються у вигляді значень окремих компонентів.</p>
+                </div>
+            </div>
         </div>
         <div id="calculator2" class="component">
-            <h2>Калькулятор 2</h2>
+            <h2>Калькулятор 2 <button onclick="openModal('modal-calculator2')">?</button></h2>
             <button onclick="showComponent('calculator1')">Перейти до калькулятора 1</button>
             <div class="input-box">
                 <div class="input-container percent">
@@ -200,6 +208,13 @@
                         палива становить: </p>
                     <span id="calculator2-qch" class="highlighted"></span>
                     </p>
+                </div>
+            </div>
+            <div id="modal-calculator2" class="modal hidden">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal('modal-calculator2')">&times;</span>
+                    <p>Веб калькулятор для перерахунку елементарного складу та нижчої теплоти
+                    згоряння мазуту на робочу масу для складу горючої маси мазуту, що задаються у вигляді значень окремих компонентів.</p>
                 </div>
             </div>
         </div>

@@ -137,3 +137,20 @@ function calculator2_calculate() {
     document.querySelector(`#calculator2 .result-box`).classList.remove('hidden');
 }
 
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('hidden');
+    modal.classList.add('visible');
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('visible');
+    modal.classList.add('hidden');
+}
+
+window.onclick = function (event) {
+    if (event.target.classList.contains('modal')) {
+        closeModal(event.target.id);
+    }
+};
