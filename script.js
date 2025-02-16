@@ -3,14 +3,6 @@ function addSymbol(input) {
     input.parentElement.setAttribute('data-value', value);
 }
 
-
-function showComponent(componentId) {
-    const components = document.querySelectorAll('.component');
-    components.forEach(component => component.classList.remove('active'));
-    document.getElementById(componentId).classList.add('active');
-}
-
-
 const numberInputs = document.querySelectorAll('input[type="text"]');
 
 numberInputs.forEach(input => {
@@ -25,8 +17,8 @@ numberInputs.forEach(input => {
             value = value.replace(/\.([^\.]*)$/, '');
         }
 
-        if (value.length > 5) {
-            value = value.slice(0, 5);  
+        if (value.length > 9) {
+            value = value.slice(0, 9);  
         }
 
         input.value = value;  
@@ -46,95 +38,89 @@ numberInputs.forEach(input => {
     });
 });
 
-function calculator1_calculate() {
-    let hp = parseFloat(document.getElementById('calculator1-hp-input').value) || 0;
-    let cp = parseFloat(document.getElementById('calculator1-cp-input').value) || 0;
-    let sp = parseFloat(document.getElementById('calculator1-sp-input').value) || 0;
-    let np = parseFloat(document.getElementById('calculator1-np-input').value) || 0;
-    let op = parseFloat(document.getElementById('calculator1-op-input').value) || 0;
-    let wp = parseFloat(document.getElementById('calculator1-wp-input').value) || 0;
-    let ap = parseFloat(document.getElementById('calculator1-ap-input').value) || 0;
+function calculate() {
+    const solidFuels = {
+        "DGSH": { 
+            qri: 20.47,      
+            ar: 25.2,
+            gvn: 1.5              
+        }
+    };
+    const oilFuels = {
+        "HS-40": { 
+            qdafi: 40.4,      
+            wr: 2,
+            ar: 0.15,
+            gvn: 0       
+        },
+        "HS-100": { 
+            qdafi: 40.03,      
+            wr: 2,
+            ar: 0.15,
+            gvn: 0       
+        },
+        "HS-200": { 
+            qdafi: 39.77,      
+            wr: 1,
+            ar: 0.3,
+            gvn: 0       
+        },
+        "LS-40": { 
+            qdafi: 41.24,      
+            wr: 2,
+            ar: 0.15,
+            gvn: 0       
+        },
+        "LS-100": { 
+            qdafi: 40.82,      
+            wr: 2,
+            ar: 0.15,
+            gvn: 0       
+        }
+    };
+    const naturalGases = {
+        "UU": { 
+            qri: 33.08,      
+            ar: 0,
+            gvn: 0       
+        },
+        "CAC": { 
+            qri: 34.21,      
+            ar: 0,
+            gvn: 0       
+        }
+    }
 
-    let kpc = 100/(100-wp);
-    let kpg = 100/(100-wp-ap);
-    let hc = hp * kpc;
-    let cc = cp * kpc;
-    let sc = sp * kpc;
-    let nc = np * kpc;
-    let oc = op * kpc;
-    let ac = ap * kpc;
-    let hg = hp * kpg;
-    let cg = cp * kpg;
-    let sg = sp * kpg;
-    let ng = np * kpg;
-    let og = op * kpg;
-    let qph = (339 * cp + 1030 * hp - 108.8 * (op - sp) - 25 * wp) / 1000;
-    let qch = (qph + 0.025 * wp) * 100 / (100 - wp);
-    let qgh = (qph + 0.025 * wp) * 100 / (100 - wp - ap);
-    
-    document.getElementById('calculator1-hp').innerHTML = `H<sup>P</sup> = ${hp} %`;
-    document.getElementById('calculator1-cp').innerHTML = `C<sup>P</sup> = ${cp} %`;
-    document.getElementById('calculator1-sp').innerHTML = `S<sup>P</sup> = ${sp} %`;
-    document.getElementById('calculator1-np').innerHTML = `N<sup>P</sup> = ${np} %`;
-    document.getElementById('calculator1-op').innerHTML = `O<sup>P</sup> = ${op} %`;
-    document.getElementById('calculator1-wp').innerHTML = `W<sup>P</sup> = ${wp} %`;
-    document.getElementById('calculator1-ap').innerHTML = `A<sup>P</sup> = ${ap} %`;
+    let nzy = 0.985;
+    let solid_avn = 0.8;
+    let oil_avn = 1;
+    let gas_avn = 0;
 
-    document.getElementById('calculator1-kpc').innerText = `${kpc.toFixed(2)}`;
-    document.getElementById('calculator1-kpg').innerHTML = `${kpg.toFixed(2)}`;
-    document.getElementById('calculator1-hc').innerHTML = `H<sup>C</sup> = ${hc.toFixed(2)}%`;
-    document.getElementById('calculator1-cc').innerHTML = `C<sup>C</sup> = ${cc.toFixed(2)}%`;
-    document.getElementById('calculator1-sc').innerHTML = `S<sup>C</sup> = ${sc.toFixed(2)}%`;
-    document.getElementById('calculator1-nc').innerHTML = `N<sup>C</sup> = ${nc.toFixed(2)}%`;
-    document.getElementById('calculator1-oc').innerHTML = `O<sup>C</sup> = ${oc.toFixed(2)}%`;
-    document.getElementById('calculator1-ac').innerHTML = `A<sup>C</sup> = ${ac.toFixed(2)}%`;
-    document.getElementById('calculator1-hg').innerHTML = `H<sup>Г</sup> = ${hg.toFixed(2)}%`;
-    document.getElementById('calculator1-cg').innerHTML = `C<sup>Г</sup> = ${cg.toFixed(2)}%`;
-    document.getElementById('calculator1-sg').innerHTML = `S<sup>Г</sup> = ${sg.toFixed(2)}%`;
-    document.getElementById('calculator1-ng').innerHTML = `N<sup>Г</sup> = ${ng.toFixed(2)}%`;
-    document.getElementById('calculator1-og').innerHTML = `O<sup>Г</sup> = ${og.toFixed(2)}%`;
-    document.getElementById('calculator1-qph').innerText = `${qph.toFixed(2)} МДж/кг`;
-    document.getElementById('calculator1-qch').innerText = `${qch.toFixed(2)} МДж/кг`;
-    document.getElementById('calculator1-qgh').innerText = `${qgh.toFixed(2)} МДж/кг`;
+    let solid_fuel = document.getElementById('solid-fuel').value;
+    let oil_fuel = document.getElementById('oil-fuel').value;
+    let gas_fuel = document.getElementById('natural-gas').value;
+    let solid_fuel_emount = document.getElementById('solid-fuel-input').value | 0;
+    let oil_fuel_emount = document.getElementById('oil-fuel-input').value | 0;
+    let natural_gas_emount = document.getElementById('natural-gas-input').value | 0;
 
-    document.querySelector(`#calculator1 .result-box`).classList.remove('hidden');
-}
+    let solid_ktv = ((10**6)/solidFuels[solid_fuel].qri)*solid_avn*((solidFuels[solid_fuel].ar)/(100-solidFuels[solid_fuel].gvn))*(1-nzy);
+    let solid_etv = (10**(-6))*solid_ktv*solidFuels[solid_fuel].qri*solid_fuel_emount;
 
-function calculator2_calculate() {
-    let hg = parseFloat(document.querySelector('.calculator2-hg-input').value) || 0;
-    let cg = parseFloat(document.querySelector('.calculator2-cg-input').value) || 0;
-    let sg = parseFloat(document.querySelector('.calculator2-sg-input').value) || 0;
-    let og = parseFloat(document.querySelector('.calculator2-og-input').value) || 0;
-    let vg = parseFloat(document.querySelector('.calculator2-vg-input').value) || 0;
-    let wg = parseFloat(document.querySelector('.calculator2-wg-input').value) || 0;
-    let ag = parseFloat(document.querySelector('.calculator2-ag-input').value) || 0;
-    let qidaf = parseFloat(document.querySelector('.calculator2-qidaf-input').value) || 0;
+    let oil_qri = oilFuels[oil_fuel].qdafi * (100-oilFuels[oil_fuel].wr-oilFuels[oil_fuel].ar)/100 - 0.025*oilFuels[oil_fuel].wr;
+    let oil_ktv = ((10**6)/oil_qri)*oil_avn*((oilFuels[oil_fuel].ar)/(100-oilFuels[oil_fuel].gvn))*(1-nzy);
+    let oil_etv = (10**(-6))*oil_ktv*oil_qri*oil_fuel_emount;
 
-    let hp = hg *(100-wg-ag)/100;
-    let cp = cg *(100-wg-ag)/100;
-    let sp = sg *(100-wg-ag)/100;
-    let op = og *(100-wg-ag)/100;
-    let vp = vg *(100-wg-ag)/100;
-    let ap = ag *(100-wg-ag)/100;
-    let qch = qidaf * (100-wg-ag)/100;
+    let gas_ktv = ((10**6)/naturalGases[gas_fuel].qri)*gas_avn*((naturalGases[gas_fuel].ar)/(100-naturalGases[gas_fuel].gvn))*(1-nzy);
+    let gas_etv = (10**(-6))*gas_ktv*naturalGases[gas_fuel].qri*natural_gas_emount;
 
-    document.getElementById('calculator2-hg').innerHTML = `H<sup>Г</sup> = ${hg}%`;
-    document.getElementById('calculator2-cg').innerHTML = `C<sup>Г</sup> = ${cg}%`;
-    document.getElementById('calculator2-sg').innerHTML = `S<sup>Г</sup> = ${sg}%`;
-    document.getElementById('calculator2-og').innerHTML = `O<sup>Г</sup> = ${og}%`;
-    document.getElementById('calculator2-vg').innerHTML = `V<sup>Г</sup> = ${vg} мг/кг`;
-    document.getElementById('calculator2-wg').innerHTML = `W<sup>Г</sup> = ${wg}%`;
-    document.getElementById('calculator2-qidaf').innerHTML = `Q<sub>i</sub><sup>daf</sup> = ${qidaf} МДж/кг`;
+    document.getElementById('solid-fuel-ktv').innerText = `${solid_ktv.toFixed(2)} г/ГДж`;
+    document.getElementById('solid-fuel-etv').innerText = `${solid_etv.toFixed(2)} т`;
+    document.getElementById('oil-fuel-ktv').innerText = `${oil_ktv.toFixed(2)} г/ГДж`;
+    document.getElementById('oil-fuel-etv').innerText = `${oil_etv.toFixed(2)} т`;
+    document.getElementById('natural-gas-ktv').innerText = `${gas_ktv.toFixed(2)} г/ГДж`;
+    document.getElementById('natural-gas-etv').innerText = `${gas_etv.toFixed(2)} т`;
 
-    document.getElementById('calculator2-hp').innerHTML = `H<sup>P</sup> = ${hp.toFixed(2)}%`;
-    document.getElementById('calculator2-cp').innerHTML = `C<sup>P</sup> = ${cp.toFixed(2)}%`;
-    document.getElementById('calculator2-sp').innerHTML = `S<sup>P</sup> = ${sp.toFixed(2)}%`;
-    document.getElementById('calculator2-op').innerHTML = `O<sup>P</sup> = ${op.toFixed(2)}%`;
-    document.getElementById('calculator2-vp').innerHTML = `V<sup>P</sup> = ${vp.toFixed(2)} мг/кг`;
-    document.getElementById('calculator2-ap').innerHTML = `A<sup>P</sup> = ${ap.toFixed(2)}%`;
-    document.getElementById('calculator2-qch').innerText = `${qch.toFixed(2)} МДж/кг`;
-
-    document.querySelector(`#calculator2 .result-box`).classList.remove('hidden');
+    document.querySelector(`.result-box`).classList.remove('hidden');
 }
 
 function openModal(modalId) {

@@ -11,211 +11,104 @@
 
 <body>
     <div id="main-component">
-        <div id="calculator1" class="component active">
-            <h2>Калькулятор 1 <button onclick="openModal('modal-calculator1')">?</button></h2>
-            <button onclick="showComponent('calculator2')">Перейти до калькулятора 2</button>
-            <div class="input-box">
-                <div class="input-container percent">
-                    <label for="calculator1-hp-input">H<sup>P</sup>:</label>
-                    <input id="calculator1-hp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+        <h2>Калькулятор <button onclick="openModal('modal')">?</button></h2>
+        <div class="input-box">
+
+            <form>
+                <label for="solid-fuel">Тверде паливо</label>
+                <select id="solid-fuel">
+                    <option value="DGSH">Донецьке газове ГР</option>
+                </select>
+                <label for="solid-fuel-input">Кількість:</label>
+                <span class="input-container tones">
+                    <input id="solid-fuel-input" type="text" step="any" placeholder="0.0 т" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                </span>
+            </form>
 
-                <div class="input-container percent">
-                    <label for="calculator1-cp-input">C<sup>P</sup>:</label>
-                    <input id="calculator1-cp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+            <form>
+                <label for="oil-fuel">Мазут</label>
+                <select id="oil-fuel">
+                    <option value="HS-40">Високосірчистий 40</option>
+                    <option value="HS-100">Високосірчистий 100</option>
+                    <option value="HS-200">Високосірчистий 200</option>
+                    <option value="LS-40">Малосірчистий 40</option>
+                    <option value="LS-100">Малосірчистий 40</option>
+                </select>
+                <label for="oil-fuel-input">Кількість:</label>
+                <span class="input-container tones">
+                    <input id="oil-fuel-input" type="text" step="any" placeholder="0.0 т" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                </span>
+            </form>
 
-                <div class="input-container percent">
-                    <label for="calculator1-sp-input">S<sup>P</sup>:</label>
-                    <input id="calculator1-sp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
+            <form>
+                <label for="natural-gas">Природний газ</label>
+                <select id="natural-gas">
+                    <option value="UU">Уренгой-Ужгород</option>
+                    <option value="CAC">Середня Азія-Центр</option>
+                </select>
+                <label for="natural-gas-input">Кількість:</label>
+                <span class="input-container volume">
+                    <input id="natural-gas-input" type="text" step="any" placeholder="0.0 м³" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                </span>
+            </form>
+        </div>
+        <button onclick="calculate()">Порахувати</button>
+        <div class="result-box hidden">
+            <div class="result">
+                <h3>Для заданого енергоблоку і відповідним умовам роботи:</h3>
 
-                <div class="input-container percent">
-                    <label for="calculator1-np-input">N<sup>P</sup>:</label>
-                    <input id="calculator1-np-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                <p id="result-1">
+                    <span>Показник емісії твердих частинок при спалюванні вугілля становитиме:</span>
+                    <span id="solid-fuel-ktv" class="highlighted"></span>
+                </p>
 
-                <div class="input-container percent">
-                    <label for="calculator1-op-input">O<sup>P</sup>:</label>
-                    <input id="calculator1-op-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                <p id="result-2">
+                    <span>Валовий викид при спалюванні вугілля становитиме:</span>
+                    <span id="solid-fuel-etv" class="highlighted"></span>
+                </p>
 
-                <div class="input-container percent">
-                    <label for="calculator1-wp-input">W<sup>P</sup>:</label>
-                    <input id="calculator1-wp-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
+                <p id="result-3">
+                    <span>Показник емісії твердих частинок при спалюванні мазуту становитиме: </span>
+                    <span id="oil-fuel-ktv" class="highlighted"></span>
+                </p>
 
-                <div class="input-container percent">
-                    <label for="calculator1-ap-input">A<sup>P</sup>:</label>
-                    <input id="calculator1-ap-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-            </div>
-            <button onclick="calculator1_calculate()">Порахувати</button>
-            <div class="result-box hidden">
-                <div class="result">
-                    <h3>Результат:</h3>
+                <p id="result-4">
+                    <span>Валовий викид при спалюванні мазуту становитиме: </span>
+                    <span id="oil-fuel-etv" class="highlighted"></span>
+                </p>
 
-                    <p id="result-inputs">
-                    <p>Для палива з компонентним складом:</p>
-                    <span id="calculator1-hp" class="highlighted"></span>
-                    <span id="calculator1-cp" class="highlighted"></span>
-                    <span id="calculator1-sp" class="highlighted"></span>
-                    <span id="calculator1-np" class="highlighted"></span>
-                    <span id="calculator1-op" class="highlighted"></span>
-                    <span id="calculator1-wp" class="highlighted"></span>
-                    <span id="calculator1-ap" class="highlighted"></span>
-                    </p>
+                <p id="result-5">
+                    <span>Показник емісії твердих частинок при спалюванні природного газу становитиме: </span>
+                    <span id="natural-gas-ktv" class="highlighted"></span>
+                </p>
 
-                    <p id="result-1">
-                        <span>Коефіцієнт переходу від робочої до сухої маси становить:</span>
-                        <span id="calculator1-kpc" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-2">
-                        <span>Коефіцієнт переходу від робочої до горючої маси становить:</span>
-                        <span id="calculator1-kpg" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-3">
-                    <p>Склад сухої маси палива становитиме:</p>
-                    <span id="calculator1-hc" class="highlighted"></span>
-                    <span id="calculator1-cc" class="highlighted"></span>
-                    <span id="calculator1-sc" class="highlighted"></span>
-                    <span id="calculator1-nc" class="highlighted"></span>
-                    <span id="calculator1-oc" class="highlighted"></span>
-                    <span id="calculator1-ac" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-4">
-                    <p>Склад сухої маси палива становитиме:</p>
-                    <span id="calculator1-hg" class="highlighted"></span>
-                    <span id="calculator1-cg" class="highlighted"></span>
-                    <span id="calculator1-sg" class="highlighted"></span>
-                    <span id="calculator1-ng" class="highlighted"></span>
-                    <span id="calculator1-og" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-5">
-                    <p>Нижча теплота згоряння для робочої маси за заданим складом компонентів палива
-                        становить:</p>
-                    <span id="calculator1-qph" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-6">
-                    <p>Нижча теплота згоряння для сухої маси за заданим складом компонентів палива становить: </p>
-                    <span id="calculator1-qch" class="highlighted"></span>
-                    </p>
-
-                    <p id="result-7">
-                    <p>Нижча теплота згоряння для горючої маси за заданим складом компонентів палива
-                        становить:</p>
-                    <span id="calculator1-qgh" class="highlighted"></span>
-                    </p>
-                </div>
-            </div>
-            <div id="modal-calculator1" class="modal hidden">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal('modal-calculator1')">&times;</span>
-                    <p>Веб калькулятор для розрахунку складу сухої та горючої маси палива та
-                    нижчої теплоти згоряння для робочої, сухої та горючої маси за заданим складом компонентів
-                    палива, що задаються у вигляді значень окремих компонентів.</p>
-                </div>
+                <p id="result-6">
+                    <span>Валовий викид при спалюванні природного газу становитиме: </span>
+                    <span id="natural-gas-etv" class="highlighted"></span>
+                </p>
             </div>
         </div>
-        <div id="calculator2" class="component">
-            <h2>Калькулятор 2 <button onclick="openModal('modal-calculator2')">?</button></h2>
-            <button onclick="showComponent('calculator1')">Перейти до калькулятора 1</button>
-            <div class="input-box">
-                <div class="input-container percent">
-                    <label for="calculator2-hg-input">H<sup>Г</sup>:</label>
-                    <input class="calculator2-hg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container percent">
-                    <label for="calculator2-cg-input">C<sup>Г</sup>:</label>
-                    <input class="calculator2-cg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container percent">
-                    <label for="calculator2-sg-input">S<sup>Г</sup>:</label>
-                    <input class="calculator2-sg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container percent">
-                    <label for="calculator2-og-input">O<sup>Г</sup>:</label>
-                    <input class="calculator2-og-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container  mg-kg">
-                    <label for="calculator2-vg-input">V<sup>Г</sup>:</label>
-                    <input class="calculator2-vg-input" type="text" step="any" placeholder="0.0 мг/кг" min="0"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container percent">
-                    <label for="calculator2-wg-input">W<sup>Г</sup>:</label>
-                    <input class="calculator2-wg-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container percent">
-                    <label for="calculator2-ag-input">A<sup>Г</sup>:</label>
-                    <input class="calculator2-ag-input" type="text" step="any" placeholder="0.0%" min="0" max="100"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-
-                <div class="input-container mj-kg">
-                    <label for="calculator2-qidaf-input">Q<sub>i</sub><sup>daf</sup>:</label>
-                    <input class="calculator2-qidaf-input" type="text" step="any" placeholder="0.0 МДж/кг" min="0"
-                        oninput="addSymbol(this)" autocomplete="off">
-                </div>
-            </div>
-            <button onclick="calculator2_calculate()">Порахувати</button>
-            <div class="result-box hidden">
-                <div class="result">
-                    <p id="result-inputs">
-                    <p>Для складу горючої маси мазуту, що задано наступними параметрами:</p>
-                    <span id="calculator2-hg" class="highlighted"></span>
-                    <span id="calculator2-cg" class="highlighted"></span>
-                    <span id="calculator2-sg" class="highlighted"></span>
-                    <span id="calculator2-og" class="highlighted"></span>
-                    <span id="calculator2-vg" class="highlighted"></span>
-                    <span id="calculator2-wg" class="highlighted"></span>
-                    <span id="calculator2-qidaf" class="highlighted"></span>
-                    </p>
-                    <p id="result-1">
-                    <p>Склад сухої маси палива становитиме:</p>
-                    <span id="calculator2-hp" class="highlighted"></span>
-                    <span id="calculator2-cp" class="highlighted"></span>
-                    <span id="calculator2-sp" class="highlighted"></span>
-                    <span id="calculator2-op" class="highlighted"></span>
-                    <span id="calculator2-vp" class="highlighted"></span>
-                    <span id="calculator2-ap" class="highlighted"></span>
-                    </p>
-                    <p id="result-2">
-                    <p>Нижча теплота згоряння мазуту на робочу масу для робочої маси за заданим складом компонентів
-                        палива становить: </p>
-                    <span id="calculator2-qch" class="highlighted"></span>
-                    </p>
-                </div>
-            </div>
-            <div id="modal-calculator2" class="modal hidden">
-                <div class="modal-content">
-                    <span class="close" onclick="closeModal('modal-calculator2')">&times;</span>
-                    <p>Веб калькулятор для перерахунку елементарного складу та нижчої теплоти
-                    згоряння мазуту на робочу масу для складу горючої маси мазуту, що задаються у вигляді значень окремих компонентів.</p>
-                </div>
+        <div id="modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('modal')">&times;</span>
+                <p>
+                    Веб калькулятор для розрахунку валових викидів шкідливих речовин у вигляді
+                    суспендованих твердих частинок при спалювання вугілля, мазуту та природного газуу якщо
+                    розглядається: 
+                </p>
+                <p>
+                    Енергоблок з котлом, призначеним для факельного спалювання вугілля з високим
+                    вмістом летких, типу газового або довгополуменевого, з рідким шлаковидаленням. Номінальна
+                    паропродуктивність котла енергоблока становить 950 т/год, а середня фактична
+                    паропродуктивність – 760 т/год. На ньому застосовується ступенева подача повітря та
+                    рециркуляція димових газів. Пароперегрівачі котла очищуються при зупинці блока. Для
+                    уловлювання твердих частинок використовується електростатичний фільтр типу ЕГА з
+                    ефективністю золовловлення 0,985.
+                    Установки для очищення димових газів від оксидів азоту та сірки відсутні.
+                </p>
             </div>
         </div>
     </div>
