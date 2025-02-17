@@ -155,12 +155,12 @@ span[data-value]:after {
     color: var(--text-secondary-color);
 }
 
-span.mw[data-value]:after {
+.mw[data-value]:after {
     content: attr(data-value) " МВт";
     left: 5px;
 }
 
-span.energy-cost[data-value]:after {
+.energy-cost[data-value]:after {
     content: attr(data-value) " грн/кВт⋅год";
     left: 5px;
 }
