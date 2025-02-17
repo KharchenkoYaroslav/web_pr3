@@ -13,81 +13,53 @@
     <div id="main-component">
         <h2>Калькулятор <button onclick="openModal('modal')">?</button></h2>
         <div class="input-box">
-
-            <form>
-                <label for="solid-fuel">Тверде паливо</label>
-                <select id="solid-fuel">
-                    <option value="DGSH">Донецьке газове ГР</option>
-                </select>
-                <label for="solid-fuel-input">Кількість:</label>
-                <span class="input-container tones">
-                    <input id="solid-fuel-input" type="text" step="any" placeholder="0.0 т" min="0"
+            <div>
+                <label for="energy-input">Середньодобова потуність:</label>
+                <span class="input-container mw">
+                    <input id="energy-input" type="text" step="any" placeholder="0.0 МВт" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
                 </span>
-            </form>
-
-            <form>
-                <label for="oil-fuel">Мазут</label>
-                <select id="oil-fuel">
-                    <option value="HS-40">Високосірчистий 40</option>
-                    <option value="HS-100">Високосірчистий 100</option>
-                    <option value="HS-200">Високосірчистий 200</option>
-                    <option value="LS-40">Малосірчистий 40</option>
-                    <option value="LS-100">Малосірчистий 40</option>
-                </select>
-                <label for="oil-fuel-input">Кількість:</label>
-                <span class="input-container tones">
-                    <input id="oil-fuel-input" type="text" step="any" placeholder="0.0 т" min="0"
+            </div>
+            <div>
+                <label for="old-sigma-input">Середньоквадратичне відхилення σ<sub>1</sub> старої
+                    системи:</label>
+                <span class="input-container mw">
+                    <input id="old-sigma-input" type="text" step="any" placeholder="0.0 МВт" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
                 </span>
-            </form>
-
-            <form>
-                <label for="natural-gas">Природний газ</label>
-                <select id="natural-gas">
-                    <option value="UU">Уренгой-Ужгород</option>
-                    <option value="CAC">Середня Азія-Центр</option>
-                </select>
-                <label for="natural-gas-input">Кількість:</label>
-                <span class="input-container volume">
-                    <input id="natural-gas-input" type="text" step="any" placeholder="0.0 м³" min="0"
+            </div>
+            <div>
+                <label for="new-sigma-input">Середньоквадратичне відхилення σ<sub>2</sub> вдосконаленої
+                    системи:</label>
+                <span class="input-container mw">
+                    <input id="new-sigma-input" type="text" step="any" placeholder="0.0 МВт" min="0"
                         oninput="addSymbol(this)" autocomplete="off">
                 </span>
-            </form>
+            </div>
+            <div>
+                <label for="cost-input">Вартість електроенергії:</label>
+                <span class="input-container energy-cost">
+                    <input id="cost-input" type="text" step="any" placeholder="0.0 грн/кВт⋅год" min="0"
+                        oninput="addSymbol(this)" autocomplete="off">
+                </span>
+            </div>
         </div>
         <button onclick="calculate()">Порахувати</button>
         <div class="result-box hidden">
             <div class="result">
-                <h3>Для заданого енергоблоку і відповідним умовам роботи:</h3>
+                <h3>Результат</h3>
 
                 <p id="result-1">
-                    <span>Показник емісії твердих частинок при спалюванні вугілля становитиме:</span>
-                    <span id="solid-fuel-ktv" class="highlighted"></span>
+                    <span>Прибуток до вдосконалення = </span>
+                    <span id="old-profit" class="highlighted"></span>
                 </p>
-
                 <p id="result-2">
-                    <span>Валовий викид при спалюванні вугілля становитиме:</span>
-                    <span id="solid-fuel-etv" class="highlighted"></span>
+                    <span>Прибуток після вдосконалення = </span>
+                    <span id="new-profit" class="highlighted"></span>
                 </p>
-
                 <p id="result-3">
-                    <span>Показник емісії твердих частинок при спалюванні мазуту становитиме: </span>
-                    <span id="oil-fuel-ktv" class="highlighted"></span>
-                </p>
-
-                <p id="result-4">
-                    <span>Валовий викид при спалюванні мазуту становитиме: </span>
-                    <span id="oil-fuel-etv" class="highlighted"></span>
-                </p>
-
-                <p id="result-5">
-                    <span>Показник емісії твердих частинок при спалюванні природного газу становитиме: </span>
-                    <span id="natural-gas-ktv" class="highlighted"></span>
-                </p>
-
-                <p id="result-6">
-                    <span>Валовий викид при спалюванні природного газу становитиме: </span>
-                    <span id="natural-gas-etv" class="highlighted"></span>
+                    <span>Різниця прибутків = </span>
+                    <span id="profit-difference" class="highlighted"></span>
                 </p>
             </div>
         </div>
@@ -95,24 +67,17 @@
             <div class="modal-content">
                 <span class="close" onclick="closeModal('modal')">&times;</span>
                 <p>
-                    Веб калькулятор для розрахунку валових викидів шкідливих речовин у вигляді
-                    суспендованих твердих частинок при спалювання вугілля, мазуту та природного газуу якщо
-                    розглядається: 
+                    Веб калькулятор розрахунку прибутку від сонячних електростанцій з
+                    встановленою системою прогнозування сонячної потужності
                 </p>
                 <p>
-                    Енергоблок з котлом, призначеним для факельного спалювання вугілля з високим
-                    вмістом летких, типу газового або довгополуменевого, з рідким шлаковидаленням. Номінальна
-                    паропродуктивність котла енергоблока становить 950 т/год, а середня фактична
-                    паропродуктивність – 760 т/год. На ньому застосовується ступенева подача повітря та
-                    рециркуляція димових газів. Пароперегрівачі котла очищуються при зупинці блока. Для
-                    уловлювання твердих частинок використовується електростатичний фільтр типу ЕГА з
-                    ефективністю золовловлення 0,985.
-                    Установки для очищення димових газів від оксидів азоту та сірки відсутні.
+                    Закон похибки вважається нормальним. Обчислюється за допомогою формули Лапласа.
                 </p>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
     <script src="script.js"> </script>
 </body>
 

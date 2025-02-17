@@ -94,19 +94,24 @@ button:active {
     font-weight: 550;
 }
 
-form {
+.input-box div {
     text-align: center;
     padding: 5px;
     width: 100%;
 }
 
 input {
-    width: 90px;
     font-weight: normal;
     border-radius: 5px;
     height: 20px;
     border: none;
     font-style: bold;
+}
+.mw input {
+    width: 75px;
+}
+.energy-cost input {
+    width: 125px;
 }
 
 input:focus {
@@ -150,13 +155,13 @@ span[data-value]:after {
     color: var(--text-secondary-color);
 }
 
-span.tones[data-value]:after {
-    content: attr(data-value) " т";
+span.mw[data-value]:after {
+    content: attr(data-value) " МВт";
     left: 5px;
 }
 
-span.volume[data-value]:after {
-    content: attr(data-value) " м³";
+span.energy-cost[data-value]:after {
+    content: attr(data-value) " грн/кВт⋅год";
     left: 5px;
 }
 
