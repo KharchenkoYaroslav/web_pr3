@@ -7,10 +7,10 @@ const numberInputs = document.querySelectorAll('input[type="text"]');
 
 numberInputs.forEach(input => {
     input.addEventListener('input', function () {
-        let value = input.value.replace(/[^0-9.]/g, '');
+        let value = input.value.replace(/[^0-9.]/g, '');  
 
         if (value.startsWith('.')) {
-            value = value.substring(1);
+            value = value.substring(1);  
         }
 
         if ((value.match(/\./g) || []).length > 1) {
@@ -18,20 +18,21 @@ numberInputs.forEach(input => {
         }
 
         if (value.length > 5) {
-            value = value.slice(0, 5);
+            value = value.slice(0, 5);  
         }
 
-        input.value = value;
+        input.value = value;  
         input.parentElement.setAttribute('data-value', value);
-
+    });
+    input.addEventListener('blur', function () {
+        const value = input.value;
         const min = input.min ? parseInt(input.min, 10) : -Infinity;
         const max = input.max ? parseInt(input.max, 10) : Infinity;
 
         if (parseInt(value, 10) < min) {
             input.value = min;
             input.parentElement.setAttribute('data-value', min);
-        }
-        else if (parseInt(value, 10) > max) {
+        } else if (parseInt(value, 10) > max) {
             input.value = max;
             input.parentElement.setAttribute('data-value', max);
         }
